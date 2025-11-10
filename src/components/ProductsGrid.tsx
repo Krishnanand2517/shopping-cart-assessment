@@ -10,7 +10,6 @@ const ProductsGrid = () => {
           key={product.id}
           className="bg-surface-900 rounded-xl border border-surface-700 hover:border-primary-600/50 transition-all duration-300 overflow-hidden group"
         >
-          {/* Product Image */}
           <div className="relative bg-white p-6 h-64 flex items-center justify-center overflow-hidden">
             <img
               src={product.image}
@@ -19,7 +18,6 @@ const ProductsGrid = () => {
             />
           </div>
 
-          {/* Product Info */}
           <div className="p-4">
             <div className="mb-2">
               <span className="text-xs text-secondary-400 font-medium uppercase tracking-wide">
@@ -32,12 +30,21 @@ const ProductsGrid = () => {
             </h3>
 
             <div className="flex items-center gap-2 mb-3">
-              <div className="flex items-center gap-1">
-                <Star className="w-4 h-4 fill-warning-500 text-warning-500" />
-                <span className="text-text-secondary text-sm font-medium">
-                  {product.rating.rate}
-                </span>
+              <div className="flex items-center gap-0.5">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star
+                    key={star}
+                    className={`w-4 h-4 ${
+                      star <= Math.round(product.rating.rate)
+                        ? "fill-warning-500 text-warning-500"
+                        : "text-surface-600"
+                    }`}
+                  />
+                ))}
               </div>
+              <span className="text-warning-500 text-sm">
+                {product.rating.rate}
+              </span>
               <span className="text-text-tertiary text-sm">
                 ({product.rating.count})
               </span>
