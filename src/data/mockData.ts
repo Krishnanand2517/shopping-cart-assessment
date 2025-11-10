@@ -1,4 +1,6 @@
-export const mockData = [
+import type { Product } from "../types";
+
+export const mockData: Product[] = [
   {
     id: 1,
     title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
