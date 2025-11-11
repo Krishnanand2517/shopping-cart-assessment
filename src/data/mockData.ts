@@ -13,6 +13,7 @@ export const mockData: Product[] = [
       rate: 3.9,
       count: 120,
     },
+    offer: 10,
   },
   {
     id: 2,
@@ -105,6 +106,7 @@ export const mockData: Product[] = [
       rate: 1.9,
       count: 100,
     },
+    offer: 15,
   },
   {
     id: 9,

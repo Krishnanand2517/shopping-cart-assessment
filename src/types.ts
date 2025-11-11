@@ -9,6 +9,7 @@ export type Product = {
     rate: number;
     count: number;
   };
+  offer?: number;
 };
 
 export type CartItem = Product & {
