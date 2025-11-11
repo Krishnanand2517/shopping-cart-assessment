@@ -21,3 +21,8 @@ export type FormDataType = {
   password: string;
   confirmPassword: string;
 };
+
+export type Promo = {
+  code: string;
+  discount: number;
+};
