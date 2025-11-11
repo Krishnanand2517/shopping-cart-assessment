@@ -5,26 +5,40 @@ import AuthForm from "./AuthForm";
 interface AuthCardProps {
   formData: FormDataType;
   isLogin: boolean;
+  rememberMe: boolean;
+  setRememberMe: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
-  handleSubmit: () => void;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string;
 }
 
 const AuthCard = ({
   formData,
   isLogin,
+  rememberMe,
+  setRememberMe,
   setIsLogin,
   handleSubmit,
   handleInputChange,
+  error,
 }: AuthCardProps) => {
   return (
     <div className="bg-surface-900/80 backdrop-blur-xl border border-surface-700/50 rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
       <AuthTabs isLogin={isLogin} setIsLogin={setIsLogin} />
 
       <div className="p-8">
+        {error && (
+          <div className="bg-error-100 text-error-500 p-3 rounded-lg mb-4 text-sm">
+            {error}
+          </div>
+        )}
+
         <AuthForm
           formData={formData}
           isLogin={isLogin}
+          rememberMe={rememberMe}
+          setRememberMe={setRememberMe}
           handleSubmit={handleSubmit}
           handleInputChange={handleInputChange}
         />

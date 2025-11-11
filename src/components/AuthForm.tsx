@@ -6,13 +6,17 @@ import type { FormDataType } from "../types";
 interface AuthFormProps {
   formData: FormDataType;
   isLogin: boolean;
-  handleSubmit: () => void;
+  rememberMe: boolean;
+  setRememberMe: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const AuthForm = ({
   formData,
   isLogin,
+  rememberMe,
+  setRememberMe,
   handleSubmit,
   handleInputChange,
 }: AuthFormProps) => {
@@ -121,6 +125,8 @@ const AuthForm = ({
           <label className="flex items-center gap-2 cursor-pointer group">
             <input
               type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
               className="w-4 h-4 rounded border-surface-700 bg-surface-800 text-primary-600 focus:ring-2 focus:ring-primary-600/20"
             />
             <span className="text-text-secondary text-sm group-hover:text-text-primary transition">

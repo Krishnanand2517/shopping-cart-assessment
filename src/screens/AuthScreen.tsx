@@ -3,6 +3,7 @@ import { ShoppingCart } from "lucide-react";
 
 import type { FormDataType } from "../types";
 import AuthCard from "../components/AuthCard";
+import { useAuth } from "../hooks/useAuth";
 
 const AuthScreen = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,9 +13,61 @@ const AuthScreen = () => {
     password: "",
     confirmPassword: "",
   });
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
+  const [error, setError] = useState("");
+
+  const { login, register } = useAuth();
+
+  const handleLogin = async () => {
+    if (!formData.email || !formData.password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    const result = await login(formData.email, formData.password, rememberMe);
+    if (!result.success) {
+      setError(result?.message || "An unexpected error occurred during login");
+    }
+  };
+
+  const handleRegister = async () => {
+    if (!formData.email || !formData.password || !formData.confirmPassword) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    const result = await register(
+      formData.name,
+      formData.email,
+      formData.password
+    );
+    if (!result.success) {
+      setError(
+        result?.message || "An unexpected error occurred during registration"
+      );
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (isLogin) {
+      await handleLogin();
+    } else {
+      await handleRegister();
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,9 +98,12 @@ const AuthScreen = () => {
         <AuthCard
           formData={formData}
           isLogin={isLogin}
+          rememberMe={rememberMe}
+          setRememberMe={setRememberMe}
           setIsLogin={setIsLogin}
           handleSubmit={handleSubmit}
           handleInputChange={handleInputChange}
+          error={error}
         />
 
         {/* Footer Text */}
