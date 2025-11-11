@@ -1,18 +1,11 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 
-import type { CartItem } from "../types";
+import { useCart } from "../hooks/useCart";
 
-interface CartItemsProps {
-  cartItems: CartItem[];
-  updateQuantity: (id: number, delta: number) => void;
-  removeItem: (id: number) => void;
-}
+const CartItems = () => {
+  const { cartItems, increaseQuantity, decreaseQuantity, removeFromCart } =
+    useCart();
 
-const CartItems = ({
-  cartItems,
-  updateQuantity,
-  removeItem,
-}: CartItemsProps) => {
   return (
     <div className="lg:col-span-2 space-y-4">
       {cartItems.length > 0 &&
@@ -43,7 +36,7 @@ const CartItems = ({
                     </h3>
                   </div>
                   <button
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeFromCart(item.id)}
                     className="text-text-tertiary hover:text-error-500 transition p-2 hover:bg-surface-800/50 rounded-lg"
                   >
                     <Trash2 className="w-5 h-5" />
@@ -58,7 +51,7 @@ const CartItems = ({
                   {/* Quantity Controls */}
                   <div className="flex items-center gap-3">
                     <button
-                      onClick={() => updateQuantity(item.id, -1)}
+                      onClick={() => decreaseQuantity(item.id)}
                       className="w-8 h-8 flex items-center justify-center bg-surface-800/50 hover:bg-surface-700 text-text-secondary rounded-lg transition"
                     >
                       <Minus className="w-4 h-4" />
@@ -67,7 +60,7 @@ const CartItems = ({
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => updateQuantity(item.id, 1)}
+                      onClick={() => increaseQuantity(item.id)}
                       className="w-8 h-8 flex items-center justify-center bg-surface-800/50 hover:bg-surface-700 text-text-secondary rounded-lg transition"
                     >
                       <Plus className="w-4 h-4" />

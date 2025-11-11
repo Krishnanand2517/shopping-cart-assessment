@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthProvider.tsx";
+import { CartProvider } from "./context/CartProvider.tsx";
 import "./index.css";
 import AuthRedirect from "./components/AuthRedirect.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
@@ -34,7 +35,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
     </AuthProvider>
   </StrictMode>
 );

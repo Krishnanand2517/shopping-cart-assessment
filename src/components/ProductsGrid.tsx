@@ -1,15 +1,19 @@
 import { Star } from "lucide-react";
 
 import { mockData } from "../data/mockData";
+import { useCart } from "../hooks/useCart";
 
 const ProductsGrid = () => {
-  const discountedPrice = (price: number, offer?: number) =>
+  const { addToCart, cartItems } = useCart();
+
+  const getDiscountedPrice = (price: number, offer?: number) =>
     offer ? price - price * (offer / 100) : price;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {mockData.map((product) => {
-        const finalPrice = discountedPrice(product.price, product.offer);
+        const finalPrice = getDiscountedPrice(product.price, product.offer);
+        const presentInCart = cartItems.some((item) => item.id === product.id);
 
         return (
           <div
@@ -52,6 +56,7 @@ const ProductsGrid = () => {
                     />
                   ))}
                 </div>
+
                 <span className="text-warning-500 text-sm">
                   {product.rating.rate}
                 </span>
@@ -84,8 +89,17 @@ const ProductsGrid = () => {
                     </p>
                   )}
                 </div>
-                <button className="px-4 py-2 rounded-lg font-medium cursor-pointer transition bg-primary-600 hover:bg-primary-700 text-white">
-                  Add
+
+                <button
+                  onClick={() => addToCart({ ...product, price: finalPrice })}
+                  disabled={presentInCart}
+                  className={`mt-3 w-full rounded-lg py-2 font-medium transition ${
+                    presentInCart
+                      ? "bg-surface-700 text-text-tertiary cursor-not-allowed"
+                      : "bg-primary-600 hover:bg-primary-700 text-white"
+                  }`}
+                >
+                  {presentInCart ? "In Cart" : "Add to Cart"}
                 </button>
               </div>
             </div>

@@ -2,34 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
-import type { CartItem, Promo } from "../types";
+import type { Promo } from "../types";
 import Header from "../components/Header";
-import { mockCartData } from "../data/mockData";
 import CartEmpty from "../components/CartEmpty";
 import CartItems from "../components/CartItems";
 import CartSummary from "../components/CartSummary";
+import { useCart } from "../hooks/useCart";
 
 const CartScreen = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>(mockCartData);
+  const { cartItems } = useCart();
+
   const [promoCode, setPromoCode] = useState("");
   const [appliedPromo, setAppliedPromo] = useState<Promo | null>(null);
-
-  const updateQuantity = (id: number, delta: number) => {
-    setCartItems((items) =>
-      items.map((item) => {
-        if (item.id === id) {
-          const newQuantity = Math.max(1, item.quantity + delta);
-          return { ...item, quantity: newQuantity };
-        }
-
-        return item;
-      })
-    );
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-  };
 
   const applyPromoCode = () => {
     if (promoCode.toUpperCase() === "SAVE10") {
@@ -40,11 +24,6 @@ const CartScreen = () => {
       alert("Invalid promo code");
     }
   };
-
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
 
   return (
     <>
@@ -68,18 +47,13 @@ const CartScreen = () => {
         {cartItems.length === 0 && <CartEmpty />}
 
         <div className="grid lg:grid-cols-3 gap-6">
-          <CartItems
-            cartItems={cartItems}
-            updateQuantity={updateQuantity}
-            removeItem={removeItem}
-          />
+          <CartItems />
 
           <CartSummary
             promoCode={promoCode}
             setPromoCode={setPromoCode}
             appliedPromo={appliedPromo}
             applyPromoCode={applyPromoCode}
-            subtotal={subtotal}
           />
         </div>
       </main>

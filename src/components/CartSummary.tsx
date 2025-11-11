@@ -1,13 +1,13 @@
 import { ChevronRight, Shield, Tag, Truck } from "lucide-react";
 
 import type { Promo } from "../types";
+import { useCart } from "../hooks/useCart";
 
 interface CartSummaryProps {
   promoCode: string;
   setPromoCode: React.Dispatch<React.SetStateAction<string>>;
   appliedPromo: Promo | null;
   applyPromoCode: () => void;
-  subtotal: number;
 }
 
 const CartSummary = ({
@@ -15,8 +15,9 @@ const CartSummary = ({
   setPromoCode,
   appliedPromo,
   applyPromoCode,
-  subtotal,
 }: CartSummaryProps) => {
+  const { totalPrice: subtotal } = useCart();
+
   const discount = appliedPromo ? subtotal * appliedPromo.discount : 0;
   const shipping = subtotal > 100 ? 0 : 9.99;
   const tax = (subtotal - discount) * 0.125;
