@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ShoppingCart } from "lucide-react";
 
 import type { FormDataType } from "../types";
-import BgDecoration from "../components/BgDecoration";
 import AuthCard from "../components/AuthCard";
 
 const AuthScreen = () => {
@@ -27,8 +26,6 @@ const AuthScreen = () => {
 
   return (
     <>
-      <BgDecoration />
-
       <main className="relative mx-auto py-12 max-w-2xs md:max-w-md animate-fade-in">
         {/* Logo & Header */}
         <div className="text-center mb-8">
