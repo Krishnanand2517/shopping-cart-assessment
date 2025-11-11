@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 
 import type { FormDataType } from "../types";
@@ -17,7 +18,12 @@ const AuthScreen = () => {
 
   const [error, setError] = useState("");
 
-  const { login, register } = useAuth();
+  const navigate = useNavigate();
+  const { user, login, register } = useAuth();
+
+  useEffect(() => {
+    if (user) navigate("/", { replace: true });
+  }, [user, navigate]);
 
   const handleLogin = async () => {
     if (!formData.email || !formData.password) {
@@ -104,6 +110,7 @@ const AuthScreen = () => {
           handleSubmit={handleSubmit}
           handleInputChange={handleInputChange}
           error={error}
+          setError={setError}
         />
 
         {/* Footer Text */}

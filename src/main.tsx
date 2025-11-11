@@ -4,6 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthProvider.tsx";
 import "./index.css";
+import AuthRedirect from "./components/AuthRedirect.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import App from "./App.tsx";
 import HomeScreen from "./screens/HomeScreen.tsx";
 import AuthScreen from "./screens/AuthScreen.tsx";
@@ -15,16 +17,15 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/",
-        element: <HomeScreen />,
+        element: <AuthRedirect />,
+        children: [{ path: "/auth", element: <AuthScreen /> }],
       },
       {
-        path: "/auth",
-        element: <AuthScreen />,
-      },
-      {
-        path: "/cart",
-        element: <CartScreen />,
+        element: <ProtectedRoute />,
+        children: [
+          { path: "/", element: <HomeScreen /> },
+          { path: "/cart", element: <CartScreen /> },
+        ],
       },
     ],
   },
