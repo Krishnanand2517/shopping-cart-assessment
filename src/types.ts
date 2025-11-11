@@ -10,3 +10,10 @@ export type Product = {
     count: number;
   };
 };
+
+export type FormDataType = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};

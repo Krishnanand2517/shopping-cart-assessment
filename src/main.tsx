@@ -5,8 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import HomeScreen from "./screens/HomeScreen.tsx";
-import LoginScreen from "./screens/LoginScreen.tsx";
-import RegisterScreen from "./screens/RegisterScreen.tsx";
+import AuthScreen from "./screens/AuthScreen.tsx";
 import CartScreen from "./screens/CartScreen.tsx";
 
 const router = createBrowserRouter([
@@ -19,12 +18,8 @@ const router = createBrowserRouter([
         element: <HomeScreen />,
       },
       {
-        path: "/login",
-        element: <LoginScreen />,
-      },
-      {
-        path: "/register",
-        element: <RegisterScreen />,
+        path: "/auth",
+        element: <AuthScreen />,
       },
       {
         path: "/cart",
