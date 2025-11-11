@@ -10,18 +10,27 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { user } = useAuth();
   const userId = user?.id || "guest";
+  const cartKey = `cart_${userId}`;
 
-  const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(
-    `cart_${userId}`,
-    []
-  );
+  const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(cartKey, []);
 
   // When user changes, switch to their saved cart
   useEffect(() => {
-    const key = `cart_${userId}`;
-    const stored = localStorage.getItem(key);
+    const stored = localStorage.getItem(cartKey);
     setCartItems(stored ? JSON.parse(stored) : []);
-  }, [userId, setCartItems]);
+  }, [cartKey, setCartItems]);
+
+  // Sync cart across tabs
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === cartKey) {
+        setCartItems(e.newValue ? JSON.parse(e.newValue) : []);
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, [cartKey, setCartItems]);
 
   const totalItems = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
