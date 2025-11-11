@@ -10,23 +10,36 @@ const SESSION_DURATION = 60 * 60 * 1000;
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useLocalStorage<User | null>("currentUser", null);
+  const [persistentUser, setPersistentUser] = useLocalStorage<User | null>(
+    "currentUser",
+    null
+  );
   const [users, setUsers] = useLocalStorage<User[]>("users", []);
   const [sessionExpiry, setSessionExpiry] = useLocalStorage<number | null>(
     "sessionExpiry",
     null
   );
 
+  // Get current user from either localStorage or sessionStorage
+  const getCurrentUser = (): User | null => {
+    if (persistentUser) return persistentUser;
+    const sessionUser = sessionStorage.getItem("sessionUser");
+    return sessionUser ? JSON.parse(sessionUser) : null;
+  };
+
+  const user = getCurrentUser();
+
   const logout = useCallback(() => {
-    setUser(null);
+    setPersistentUser(null);
     setSessionExpiry(null);
     sessionStorage.removeItem("sessionUser");
-  }, [setSessionExpiry, setUser]);
+    sessionStorage.removeItem("sessionExpiry");
+  }, [setSessionExpiry, setPersistentUser]);
 
   // Check session expiry on mount and set up interval
   useEffect(() => {
     const checkSession = () => {
-      if (user && sessionExpiry) {
+      if (persistentUser && sessionExpiry) {
         const now = Date.now();
         if (now > sessionExpiry) {
           // Session expired
@@ -41,7 +54,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const interval = setInterval(checkSession, 60000);
 
     return () => clearInterval(interval);
-  }, [user, sessionExpiry, logout]);
+  }, [persistentUser, sessionExpiry, logout]);
 
   const hashPassword = async (password: string) => {
     const encoder = new TextEncoder();
@@ -68,7 +81,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUsers([...users, newUser]);
 
     // Auto login after registration
-    setUser(newUser);
+    const expiry = Date.now() + SESSION_DURATION;
+    sessionStorage.setItem("sessionExpiry", expiry.toString());
+    sessionStorage.setItem("sessionUser", JSON.stringify(newUser));
+
     return { success: true, message: "Registration successful" };
   };
 
@@ -84,16 +100,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 
     if (foundUser) {
-      const userData = { email: foundUser.email, id: foundUser.id };
       const expiry = Date.now() + SESSION_DURATION;
 
       if (rememberMe) {
-        setUser(foundUser);
+        setPersistentUser(foundUser);
         setSessionExpiry(expiry);
       } else {
-        setUser(foundUser);
-        setSessionExpiry(expiry);
-        sessionStorage.setItem("sessionUser", JSON.stringify(userData));
+        sessionStorage.setItem("sessionExpiry", expiry.toString());
+        sessionStorage.setItem("sessionUser", JSON.stringify(foundUser));
+        setPersistentUser(null);
+        setSessionExpiry(null);
       }
       return { success: true };
     }

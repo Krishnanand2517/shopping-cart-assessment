@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { LogOut, ShoppingCart } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {
+  const { logout } = useAuth();
+
   return (
     <header className="max-w-lg mx-auto sticky top-6 z-50 animate-fade-in">
       <div className="bg-surface-900/80 backdrop-blur-xl border border-surface-700/50 rounded-full shadow-2xl shadow-black/20">
@@ -15,10 +18,13 @@ const Header = () => {
             </Link>
 
             <div className="flex items-center gap-4">
-              <button className="relative p-2 hover:bg-surface-800/50 rounded-lg transition-all duration-300 hover:scale-105">
-                <LogOut className="w-6 h-6 text-text-secondary" />
+              <button className="relative p-2 hover:bg-surface-800/50 rounded-lg transition-all duration-300 hover:scale-105 cursor-pointer">
+                <LogOut
+                  onClick={() => logout()}
+                  className="w-6 h-6 text-text-secondary"
+                />
               </button>
-              <button className="relative p-2 hover:bg-surface-800/50 rounded-lg transition-all duration-300 hover:scale-105">
+              <button className="relative p-2 hover:bg-surface-800/50 rounded-lg transition-all duration-300 hover:scale-105 cursor-pointer">
                 <ShoppingCart className="w-6 h-6 text-text-secondary" />
 
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary-600 text-white text-xs rounded-full flex items-center justify-center animate-bounce-in shadow-lg">
