@@ -11,6 +11,10 @@ export type Product = {
   };
 };
 
+export type CartItem = Product & {
+  quantity: number;
+};
+
 export type FormDataType = {
   name: string;
   email: string;

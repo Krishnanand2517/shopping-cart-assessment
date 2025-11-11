@@ -1,4 +1,4 @@
-import type { Product } from "../types";
+import type { CartItem, Product } from "../types";
 
 export const mockData: Product[] = [
   {
@@ -134,7 +134,7 @@ export const mockData: Product[] = [
   },
 ];
 
-export const mockCartData: Product[] = [
+export const mockCartData: CartItem[] = [
   {
     id: 9,
     title: "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
@@ -147,6 +147,7 @@ export const mockCartData: Product[] = [
       rate: 3.3,
       count: 203,
     },
+    quantity: 1,
   },
   {
     id: 10,
@@ -160,5 +161,6 @@ export const mockCartData: Product[] = [
       rate: 2.9,
       count: 470,
     },
+    quantity: 2,
   },
 ];
