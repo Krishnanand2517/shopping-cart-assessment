@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { useAuth } from "../hooks/useAuth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -11,14 +11,18 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const { user } = useAuth();
   const userId = user?.id || "guest";
   const cartKey = `cart_${userId}`;
+  const prevUserIdRef = useRef(userId);
 
   const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(cartKey, []);
 
   // When user changes, switch to their saved cart
   useEffect(() => {
-    const stored = localStorage.getItem(cartKey);
-    setCartItems(stored ? JSON.parse(stored) : []);
-  }, [cartKey, setCartItems]);
+    if (prevUserIdRef.current !== userId) {
+      prevUserIdRef.current = userId;
+      const stored = localStorage.getItem(cartKey);
+      setCartItems(stored ? JSON.parse(stored) : []);
+    }
+  }, [userId, cartKey, setCartItems]);
 
   // Sync cart across tabs
   useEffect(() => {

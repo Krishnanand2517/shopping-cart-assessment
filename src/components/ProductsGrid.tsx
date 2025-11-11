@@ -93,13 +93,13 @@ const ProductsGrid = () => {
                 <button
                   onClick={() => addToCart({ ...product, price: finalPrice })}
                   disabled={presentInCart}
-                  className={`mt-3 w-full rounded-lg py-2 font-medium transition ${
+                  className={`mt-3 rounded-lg px-4 py-2 font-medium transition ${
                     presentInCart
                       ? "bg-surface-700 text-text-tertiary cursor-not-allowed"
                       : "bg-primary-600 hover:bg-primary-700 text-white"
                   }`}
                 >
-                  {presentInCart ? "In Cart" : "Add to Cart"}
+                  {presentInCart ? "Added" : "Add"}
                 </button>
               </div>
             </div>

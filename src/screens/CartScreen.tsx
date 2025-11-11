@@ -10,7 +10,7 @@ import CartSummary from "../components/CartSummary";
 import { useCart } from "../hooks/useCart";
 
 const CartScreen = () => {
-  const { cartItems } = useCart();
+  const { totalItems } = useCart();
 
   const [promoCode, setPromoCode] = useState("");
   const [appliedPromo, setAppliedPromo] = useState<Promo | null>(null);
@@ -44,17 +44,19 @@ const CartScreen = () => {
           Shopping Cart
         </h1>
 
-        {cartItems.length === 0 && <CartEmpty />}
+        {totalItems === 0 && <CartEmpty />}
 
         <div className="grid lg:grid-cols-3 gap-6">
           <CartItems />
 
-          <CartSummary
-            promoCode={promoCode}
-            setPromoCode={setPromoCode}
-            appliedPromo={appliedPromo}
-            applyPromoCode={applyPromoCode}
-          />
+          {totalItems > 0 && (
+            <CartSummary
+              promoCode={promoCode}
+              setPromoCode={setPromoCode}
+              appliedPromo={appliedPromo}
+              applyPromoCode={applyPromoCode}
+            />
+          )}
         </div>
       </main>
     </>
