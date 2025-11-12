@@ -1,9 +1,13 @@
 import { Star } from "lucide-react";
 
-import { mockData } from "../data/mockData";
+import type { Product } from "../types";
 import { useCart } from "../hooks/useCart";
 
-const ProductsGrid = () => {
+interface ProductsGridProps {
+  products: Product[];
+}
+
+const ProductsGrid = ({ products }: ProductsGridProps) => {
   const { addToCart, cartItems } = useCart();
 
   const getDiscountedPrice = (price: number, offer?: number) =>
@@ -11,7 +15,7 @@ const ProductsGrid = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {mockData.map((product) => {
+      {products.map((product) => {
         const finalPrice = getDiscountedPrice(product.price, product.offer);
         const presentInCart = cartItems.some((item) => item.id === product.id);
 
