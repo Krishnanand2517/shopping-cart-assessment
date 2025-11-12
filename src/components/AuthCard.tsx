@@ -26,12 +26,14 @@ const AuthCard = ({
   setError,
 }: AuthCardProps) => {
   return (
-    <div className="bg-surface-900/80 backdrop-blur-xl border border-surface-700/50 rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
+    <div className="w-full max-w-md mx-auto bg-surface-900/80 backdrop-blur-xl border border-surface-700/50 rounded-3xl shadow-2xl shadow-black/20 overflow-hidden sm:mt-12 mt-6 sm:px-0 px-4">
+      {/* Tabs */}
       <AuthTabs isLogin={isLogin} setIsLogin={setIsLogin} setError={setError} />
 
-      <div className="p-8">
+      {/* Content */}
+      <div className="sm:p-8 p-4">
         {error && (
-          <div className="bg-error-100/10 text-error-500 p-3 rounded-lg backdrop-blur-xl mb-4 text-sm font-semibold">
+          <div className="bg-error-100/10 text-error-500 p-3 rounded-lg backdrop-blur-xl mb-4 text-sm font-semibold text-center sm:text-left">
             {error}
           </div>
         )}

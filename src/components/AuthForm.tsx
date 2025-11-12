@@ -31,7 +31,7 @@ const AuthForm = ({
       formData.password === formData.confirmPassword;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 max-w-md w-full mx-auto sm:px-6">
       {/* Name Field (Register Only) */}
       {!isLogin && (
         <div className="animate-slide-in">
@@ -39,14 +39,14 @@ const AuthForm = ({
             Full Name
           </label>
           <div className="relative">
-            <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
               placeholder="Your Name"
-              className="w-full bg-surface-800/50 text-text-primary pl-12 pr-4 py-3.5 rounded-xl border border-surface-700/50 focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition-all duration-300"
+              className="w-full bg-surface-800/50 text-text-primary pl-10 pr-4 py-3 rounded-xl border border-surface-700/50 focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition"
             />
           </div>
         </div>
@@ -58,14 +58,14 @@ const AuthForm = ({
           Email Address
         </label>
         <div className="relative">
-          <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleInputChange}
             placeholder="you@example.com"
-            className="w-full bg-surface-800/50 text-text-primary pl-12 pr-4 py-3.5 rounded-xl border border-surface-700/50 focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition-all duration-300"
+            className="w-full bg-surface-800/50 text-text-primary pl-10 pr-4 py-3 rounded-xl border border-surface-700/50 focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition"
           />
         </div>
       </div>
@@ -76,19 +76,19 @@ const AuthForm = ({
           Password
         </label>
         <div className="relative">
-          <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
           <input
             type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={handleInputChange}
             placeholder="••••••••"
-            className="w-full bg-surface-800/50 text-text-primary pl-12 pr-12 py-3.5 rounded-xl border border-surface-700/50 focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition-all duration-300"
+            className="w-full bg-surface-800/50 text-text-primary pl-10 pr-12 py-3 rounded-xl border border-surface-700/50 focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-text-tertiary hover:text-text-secondary transition"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-text-secondary transition"
           >
             {showPassword ? (
               <EyeOff className="w-5 h-5" />
@@ -106,22 +106,22 @@ const AuthForm = ({
             Confirm Password
           </label>
           <div className="relative">
-            <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
             <input
               type={showPassword ? "text" : "password"}
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleInputChange}
               placeholder="••••••••"
-              className="w-full bg-surface-800/50 text-text-primary pl-12 pr-4 py-3.5 rounded-xl border border-surface-700/50 focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition-all duration-300"
+              className="w-full bg-surface-800/50 text-text-primary pl-10 pr-4 py-3 rounded-xl border border-surface-700/50 focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/20 transition"
             />
           </div>
         </div>
       )}
 
-      {/* Remember Me & Forgot Password (Login Only) */}
+      {/* Remember Me (Login Only) */}
       {isLogin && (
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <label className="flex items-center gap-2 cursor-pointer group">
             <input
               type="checkbox"
@@ -140,7 +140,7 @@ const AuthForm = ({
       <button
         onClick={handleSubmit}
         disabled={!isFormValid}
-        className={`w-full font-semibold py-3.5 rounded-xl ${
+        className={`w-full font-semibold py-3.5 rounded-xl text-base sm:text-lg ${
           isFormValid
             ? "bg-linear-to-r from-primary-600 to-accent-600 hover:from-primary-700 hover:to-accent-700 text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary-600/20 cursor-pointer transition-all transform"
             : "bg-surface-700 text-text-tertiary cursor-not-allowed"
